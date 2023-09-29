@@ -1,8 +1,13 @@
 package com.hendisantika.springbootuploaddownloadfile.controller;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,5 +77,19 @@ public class FileController {
         Collections.addAll(list, fileList);
         model.addAttribute("list", list);
         return "index";
+    }
+
+    @GetMapping(path = "/download/{name}")
+    public ResponseEntity<Resource> download(@PathVariable("name") String name) throws IOException {
+
+        File file = new File(UPLOADED_FOLDER + name);
+        Path path = Paths.get(file.getAbsolutePath());
+        ByteArrayResource resource = new ByteArrayResource
+                (Files.readAllBytes(path));
+
+        return ResponseEntity.ok().headers(this.headers(name))
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType
+                        ("application/octet-stream")).body(resource);
     }
 }
