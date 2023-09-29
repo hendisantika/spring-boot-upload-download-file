@@ -36,11 +36,11 @@ import java.util.List;
 public class FileController {
 
     // Save the uploaded file to this folder
-    private static final String UPLOADED_FOLDER = "/home/hendisantika/Desktop/files/";
+    private static final String UPLOADED_FOLDER = "/Users/hendisantika/Desktop/files";
 
     @GetMapping("/")
     public String index(Model model) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         File files = new File(UPLOADED_FOLDER);
         String[] fileList = files.list();
         Collections.addAll(list, fileList);
