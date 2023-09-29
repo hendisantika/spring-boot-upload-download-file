@@ -2,6 +2,7 @@ package com.hendisantika.springbootuploaddownloadfile.controller;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -101,5 +102,17 @@ public class FileController {
             return "redirect:/";
         }
         return "redirect:/";
+    }
+
+    private HttpHeaders headers(String name) {
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=" + name);
+        header.add("Cache-Control", "no-cache, no-store,"
+                + " must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+        return header;
+
     }
 }
