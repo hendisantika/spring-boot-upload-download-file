@@ -92,4 +92,14 @@ public class FileController {
                 .contentType(MediaType.parseMediaType
                         ("application/octet-stream")).body(resource);
     }
+
+    @PostMapping(path = "/delete")
+    public String delete(@RequestParam("name") String name) throws IOException {
+        try {
+            Files.deleteIfExists(Paths.get(UPLOADED_FOLDER + name));
+        } catch (IOException e) {
+            return "redirect:/";
+        }
+        return "redirect:/";
+    }
 }
